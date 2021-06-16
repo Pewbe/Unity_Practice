@@ -17,8 +17,11 @@ public class PlayerAction : MonoBehaviour
 
     void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        try
+        {
+            rigid = GetComponent<Rigidbody2D>();
+            anim = GetComponent<Animator>();
+        } catch( MissingComponentException ) {}
     }
 
     void Update()
@@ -61,14 +64,14 @@ public class PlayerAction : MonoBehaviour
             dirVec = Vector3.left;
         
         //raycast에 스캔된 오브젝트 출력
-        if (Input.GetButtonDown( KeyCode.Z.ToString() ) && scanObject != null) //raycast에 오브젝트가 잡혀있음과 동시에 z키를 눌렀을 경우
+        if (Input.GetButtonDown( "Click" ) && scanObject != null) //raycast에 오브젝트가 잡혀있음과 동시에 z키를 눌렀을 경우
             manager.Action( scanObject );
     }
 
     void FixedUpdate()
     {
         //이동
-        if ( Input.GetKey("right shift") || Input.GetKey("left shift") )
+        if ( Input.GetKey("left shift") )
         {
             Vector2 moveVec = isHorizonMove ? new Vector2(h, 0) : new Vector2(0, v);
             rigid.velocity = moveVec * (speed+3);
